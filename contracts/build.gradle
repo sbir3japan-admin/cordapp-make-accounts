@@ -19,3 +19,8 @@ dependencies {
 
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
 }
+
+jar{
+    archiveBaseName = "contracts-for-makeaccounts"
+    // archiveFileName = "${archiveBaseName}.jar"
+}

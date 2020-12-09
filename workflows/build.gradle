@@ -5,6 +5,21 @@ cordapp {
     targetPlatformVersion corda_platform_version
     minimumPlatformVersion corda_platform_version
     workflow {
+
+        // add tateyama
+        signing {
+            enabled true
+            options {
+                keystore getProperty('jar.sign.keystoreA')
+                alias 'cordapp-signer'
+                storepass getProperty('jar.sign.password')
+                keypass getProperty('jar.sign.password')
+                storetype 'PKCS12'
+            }
+        }
+        // end
+
+
         name "Template Flows"
         vendor "Corda Open Source"
         licence "Apache License, Version 2.0"
@@ -50,9 +65,19 @@ dependencies {
 
     // CorDapp dependencies.
     cordapp project(":contracts")
+
+    //Account dependencies
+    cordaCompile "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
+    cordaCompile "$accounts_release_group:accounts-workflows:$accounts_release_version"
+
 }
 
 task integrationTest(type: Test, dependsOn: []) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+jar{
+    archiveBaseName = "workflows-for-makeaccounts"
+    // archiveFileName = "${archiveBaseName}.jar"
 }
